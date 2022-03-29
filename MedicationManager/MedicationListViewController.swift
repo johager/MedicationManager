@@ -11,6 +11,7 @@ class MedicationListViewController: UIViewController {
 
     // MARK: - Outlets
     
+    @IBOutlet weak var moodSurveyButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
     // MARK: - Lifecycle
@@ -19,11 +20,27 @@ class MedicationListViewController: UIViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        updateMoodSurveyButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+    }
+    
+    // MARK: - View Methods
+    
+    func updateMoodSurveyButton() {
+        guard let todayMoodSurvey = MoodSurveyController.shared.todayMoodSurvey else { return }
+        moodSurveyButton?.setTitle(todayMoodSurvey.moodState, for: .normal)
+    }
+    
+    // MARK: - Action
+    
+    @IBAction func surveyButtonTapped(_ sender: UIButton) {
+        guard let moodSurveyViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "moodSurveyViewController") as? MoodSurveyViewController else { return }
+        moodSurveyViewController.delegate = self
+        navigationController?.present(moodSurveyViewController, animated: true)
     }
     
     // MARK: - Navigation
@@ -83,5 +100,15 @@ extension MedicationListViewController: MedicationTableViewCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         MedicationController.shared.setMedication(atIndex: indexPath.row, wasTakenTo: wasTaken)
         tableView.reloadData()
+    }
+}
+
+// MARK: - MoodSurveyViewControllerDelegate
+
+extension MedicationListViewController: MoodSurveyViewControllerDelegate {
+    
+    func setTodaysMoodState(to moodState: String) {
+        MoodSurveyController.shared.setTodaysMoodState(to: moodState)
+        updateMoodSurveyButton()
     }
 }
