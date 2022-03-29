@@ -95,7 +95,6 @@
                     <navigationItem key="navigationItem" id="FCF-sy-XLq">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="oUW-W9-Sns">
                             <connections>
-                                <action selector="addButtonTapped:" destination="ra4-kM-ler" id="xCf-c0-gEX"/>
                                 <segue destination="SAf-Vr-z8U" kind="show" identifier="showNewMedication" id="Ww6-jd-yGS"/>
                             </connections>
                         </barButtonItem>

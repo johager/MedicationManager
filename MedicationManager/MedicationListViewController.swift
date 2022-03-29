@@ -25,11 +25,6 @@ class MedicationListViewController: UIViewController {
         tableView.reloadData()
     }
     
-    // MARK: - Actions
-    
-    @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
-    }
-    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -41,7 +36,7 @@ class MedicationListViewController: UIViewController {
     }
 }
 
-// MARL: - UITableViewDataSource
+// MARK: - UITableViewDataSource
 
 extension MedicationListViewController: UITableViewDataSource {
     
@@ -51,7 +46,19 @@ extension MedicationListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "medicationCell", for: indexPath) as? MedicationTableViewCell else { return UITableViewCell() }
-        cell.configure(with: MedicationController.shared.medications[indexPath.row])
+        cell.configure(with: MedicationController.shared.medications[indexPath.row], andDelegate: self)
         return cell
+    }
+}
+
+// MARK: - MedicationTableViewCellDelegate
+
+extension MedicationListViewController: MedicationTableViewCellDelegate {
+    
+    func setMedication(for cell: MedicationTableViewCell, wasTakenTo wasTaken: Bool) {
+        print("\(#function) - wasTaken: \(wasTaken)")
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        MedicationController.shared.setMedication(atIndex: indexPath.row, wasTakenTo: wasTaken)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
