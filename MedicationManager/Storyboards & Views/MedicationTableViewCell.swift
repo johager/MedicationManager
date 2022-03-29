@@ -48,9 +48,7 @@ class MedicationTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func wasTakenButtonTapped(_ sender: UIButton) {
-        print("\(#function) - wasTakenToday: \(wasTakenToday) (initial)")
         wasTakenToday.toggle()
-        print("\(#function) - wasTakenToday: \(wasTakenToday) (after toggle)")
         delegate?.setMedication(for: self, wasTakenTo: wasTakenToday)
     }
 }

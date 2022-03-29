@@ -11,7 +11,10 @@ class MedicationController {
     
     static let shared = MedicationController()
     
-    var medications = [Medication]()
+    var medications: [[Medication]] { [notTakenMeds, takenMeds] }
+    
+    private var notTakenMeds = [Medication]()
+    private var takenMeds = [Medication]()
     
     private lazy var fetchRequest: NSFetchRequest<Medication> = {
         let request = NSFetchRequest<Medication>(entityName: "Medication")
@@ -25,13 +28,14 @@ class MedicationController {
     // MARK: - CRUD
     
     func create(name: String, timeOfDay: Date) {
-        Medication(name: name, timeOfDay: timeOfDay)
+        notTakenMeds.append(Medication(name: name, timeOfDay: timeOfDay))
         CoreDataStack.saveContext()
-        fetchMedication()
     }
     
     func fetchMedication() {
-        medications = (try? CoreDataStack.context.fetch(fetchRequest)) ?? []
+        let medications = (try? CoreDataStack.context.fetch(fetchRequest)) ?? []
+        notTakenMeds = medications.filter { !$0.wasTakenToday }
+        takenMeds = medications.filter { $0.wasTakenToday }
     }
     
     func updateMedication(_ medication: Medication, name: String, timeOfDay: Date) {
@@ -42,11 +46,17 @@ class MedicationController {
     
     func setMedication(atIndex index: Int, wasTakenTo wasTaken: Bool) {
         if wasTaken {
-            TakenDate(date: Date(), medication: medications[index])
+            TakenDate(date: Date(), medication: notTakenMeds[index])
+            takenMeds.append(notTakenMeds[index])
+            notTakenMeds.remove(at: index)
             CoreDataStack.saveContext()
+            
         } else {
-            let mutableTakenDates = medications[index].mutableSetValue(forKeyPath: "takenDates")
+            let mutableTakenDates = takenMeds[index].mutableSetValue(forKeyPath: "takenDates")
             let today = Date()
+            
+            notTakenMeds.append(takenMeds[index])
+            takenMeds.remove(at: index)
             
             if let takenDate = (mutableTakenDates as? Set<TakenDate>)?.first(where: { Calendar.current.isDate($0.date, inSameDayAs: today)}) {
                 mutableTakenDates.remove(takenDate)
