@@ -14,7 +14,7 @@ class MoodSurveyController {
     var todayMoodSurvey: MoodSurvey?
     
     private lazy var fetchRequest: NSFetchRequest<MoodSurvey> = {
-        let request = NSFetchRequest<MoodSurvey>(entityName: "MoodSurvey")
+        let request = NSFetchRequest<MoodSurvey>(entityName: Strings.moodSurveyEntityName)
         let today = Date()
         let startOfToday = Calendar.current.startOfDay(for: today)
         let startOfTOmorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? Date()

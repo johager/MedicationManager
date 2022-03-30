@@ -19,6 +19,8 @@ class Medication: NSManagedObject {
     
     // MARK: - Properties
     
+    var id: String { objectID.uriRepresentation().absoluteString }
+    
     var wasTakenToday: Bool {
         guard let takenDates = takenDates as? Set<TakenDate> else { return false }
         

@@ -38,7 +38,7 @@ class MedicationListViewController: UIViewController {
     // MARK: - Action
     
     @IBAction func surveyButtonTapped(_ sender: UIButton) {
-        guard let moodSurveyViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "moodSurveyViewController") as? MoodSurveyViewController else { return }
+        guard let moodSurveyViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Strings.moodSurveyViewControllerIdentifier) as? MoodSurveyViewController else { return }
         moodSurveyViewController.delegate = self
         navigationController?.present(moodSurveyViewController, animated: true)
     }
@@ -46,7 +46,7 @@ class MedicationListViewController: UIViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "showMedicationDetails",
+        guard segue.identifier == Strings.showMedicationDetailsSegueIdentifier,
               let destination = segue.destination as? MedicationDetailViewController,
               let indexPath = tableView.indexPathForSelectedRow
         else { return }
@@ -67,9 +67,15 @@ extension MedicationListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "medicationCell", for: indexPath) as? MedicationTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Strings.medicationCellIdentifier, for: indexPath) as? MedicationTableViewCell else { return UITableViewCell() }
         cell.configure(with: MedicationController.shared.medications[indexPath.section][indexPath.row], andDelegate: self)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        MedicationController.shared.deleteMedication(atIndexPath: indexPath)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }
 
