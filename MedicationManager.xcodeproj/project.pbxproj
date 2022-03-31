@@ -25,6 +25,7 @@
 		F8EB0D9727F396020002C9BD /* MoodSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EB0D9627F396020002C9BD /* MoodSurveyViewController.swift */; };
 		F8EB0D9927F399B10002C9BD /* MoodSurvey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EB0D9827F399B10002C9BD /* MoodSurvey.swift */; };
 		F8EB0D9B27F39A490002C9BD /* MoodSurveyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EB0D9A27F39A490002C9BD /* MoodSurveyController.swift */; };
+		F8F473F727F5F93C003F2509 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F473F627F5F93C003F2509 /* NotificationNames.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		F8EB0D9627F396020002C9BD /* MoodSurveyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodSurveyViewController.swift; sourceTree = "<group>"; };
 		F8EB0D9827F399B10002C9BD /* MoodSurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodSurvey.swift; sourceTree = "<group>"; };
 		F8EB0D9A27F39A490002C9BD /* MoodSurveyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodSurveyController.swift; sourceTree = "<group>"; };
+		F8F473F627F5F93C003F2509 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				F832073827F2084A00A230CC /* AppDelegate.swift */,
 				F832074127F2084B00A230CC /* Assets.xcassets */,
 				F832074627F2084B00A230CC /* Info.plist */,
+				F8F473F627F5F93C003F2509 /* NotificationNames.swift */,
 				F859EA3327F4E48C00B5CF03 /* NotificationScheduler.swift */,
 				F832073A27F2084A00A230CC /* SceneDelegate.swift */,
 				F859EA3527F4FFFE00B5CF03 /* Strings.swift */,
@@ -219,6 +222,7 @@
 				F832075127F2243B00A230CC /* MedicationListViewController.swift in Sources */,
 				F8EB0D9927F399B10002C9BD /* MoodSurvey.swift in Sources */,
 				F832076427F23F7B00A230CC /* Medication.swift in Sources */,
+				F8F473F727F5F93C003F2509 /* NotificationNames.swift in Sources */,
 				F832075B27F228A400A230CC /* MedicationTableViewCell.swift in Sources */,
 				F832076227F23E0000A230CC /* CoreDataStack.swift in Sources */,
 			);
@@ -366,7 +370,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 37H8X6K6NN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MedicationManager/Resources/Info.plist;
@@ -394,7 +398,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 37H8X6K6NN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MedicationManager/Resources/Info.plist;

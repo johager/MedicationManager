@@ -14,13 +14,20 @@ class MedicationListViewController: UIViewController {
     @IBOutlet weak var moodSurveyButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
+    // MARK: - Init
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        updateMoodSurveyButton()
+        
+        setUpViews()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reminderFired), name: NotificationNames.medicationReminderReceived, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,6 +36,12 @@ class MedicationListViewController: UIViewController {
     }
     
     // MARK: - View Methods
+    
+    func setUpViews() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        updateMoodSurveyButton()
+    }
     
     func updateMoodSurveyButton() {
         guard let todayMoodSurvey = MoodSurveyController.shared.todayMoodSurvey else { return }
@@ -41,6 +54,17 @@ class MedicationListViewController: UIViewController {
         guard let moodSurveyViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Strings.moodSurveyViewControllerIdentifier) as? MoodSurveyViewController else { return }
         moodSurveyViewController.delegate = self
         navigationController?.present(moodSurveyViewController, animated: true)
+    }
+    
+    @objc private func reminderFired() {
+        let originalColor = view.backgroundColor
+        view.backgroundColor = .systemRed
+        tableView.backgroundColor = view.backgroundColor
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.view.backgroundColor = originalColor
+            self.tableView.backgroundColor = originalColor
+        }
     }
     
     // MARK: - Navigation

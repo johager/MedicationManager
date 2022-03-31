@@ -34,6 +34,17 @@ class MedicationTableViewCell: UITableViewCell {
         return dateFormatter
     }
     
+    // MARK: - Init
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        NotificationCenter.default.addObserver(self, selector: #selector(reminderFired), name: NotificationNames.medicationReminderReceived, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Methods
     
     func configure(with medication: Medication, andDelegate delegate: MedicationTableViewCellDelegate) {
@@ -50,5 +61,14 @@ class MedicationTableViewCell: UITableViewCell {
     @IBAction func wasTakenButtonTapped(_ sender: UIButton) {
         wasTakenToday.toggle()
         delegate?.setMedication(for: self, wasTakenTo: wasTakenToday)
+    }
+    
+    @objc private func reminderFired() {
+        let originalColor = contentView.backgroundColor
+        contentView.backgroundColor = .systemRed
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.contentView.backgroundColor = originalColor
+        }
     }
 }

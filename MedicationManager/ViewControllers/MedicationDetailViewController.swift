@@ -18,6 +18,12 @@ class MedicationDetailViewController: UIViewController {
     
     var medication: Medication?
     
+    // MARK: - Init
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -31,6 +37,8 @@ class MedicationDetailViewController: UIViewController {
         } else {
             title = "Add Medication"
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reminderFired), name: NotificationNames.medicationReminderReceived, object: nil)
     }
     
     // MARK: - Actions
@@ -49,5 +57,14 @@ class MedicationDetailViewController: UIViewController {
         }
         
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func reminderFired() {
+        let originalColor = view.backgroundColor
+        view.backgroundColor = .systemRed
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.view.backgroundColor = originalColor
+        }
     }
 }
